@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html> <!--"-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+</h:head>
+    <body>
+        <ui:composition>
+        <table>
+            <tr>
+                <td id="menu">
+                    <h3>Dark<br/>mode</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="switcher"/>
+                        <span class="slider round"/>
+                    </label>
+                </td>
+
+                <td id="graph-style">
+                    <canvas id="graph" width="600%" height="600%" style="border: 3px solid var(--border-color);"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <h:form id="form" onsubmit="return validateForm(this)">
+                        <table class="select-table">
+                            <tr>
+                                <td>
+                                    <label id="y_label" for='input_y'>Y from -5 to 5</label>
+                                </td>
+                                <td>
+                                    <h:inputText onchange="changeValueForY()" value="#{attempt.y}" id='input_y' name="input_y" required="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label id="x_label" for="input_x">X</label>
+                                    <h:inputHidden value="#{attempt.x}" name='input_x' id='input_x'/>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForX(-2)" value="-2"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(-1.5)" value="-1.5"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(-1)" value="-1"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(-0.5)" value="-0.5"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(0)" value="0"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(0.5)" value="0.5"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(1)" value="1"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(1.5)" value="1.5"></h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton onclick="changeValueForX(2)" value="2"></h:commandButton>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label id="r_label" for="input_r">R</label>
+                                    <h:inputHidden value="#{attempt.r}" name='input_r' id='input_r'/>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForR(1)" value="1"></h:commandButton>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForR(1.5)" value="1.5"></h:commandButton>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForR(2)" value="2"></h:commandButton>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForR(2.5)" value="2.5"></h:commandButton>
+                                </td>
+                                <td>
+                                <h:commandButton onclick="changeValueForR(3)" value="3"></h:commandButton>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton class = "button" value="Clear" action="#{dbManager.clear()}"/>
+                                </td>
+                                <td>
+                                    <h:commandButton class = "button" id="submit" value="Check in DB" action="#{dbManager.checkHit(attempt)}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p id="warning">
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:1%;text-align:center;">
+                    <h2>Results</h2>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:1%">
+                    <h:dataTable value="#{dbManager.attempts}" var="a" id="results">
+                        <tr>
+                            <td>Attempt</td>
+                            <td>X</td>
+                            <td>Y</td>
+                            <td>R</td>
+                            <td>Result</td>
+                            <th>Attempt time</th>
+                            <th>Processing time</th>
+                        </tr>
+                        <h:column>
+                            <f:facet name="header">X</f:facet>
+                            <h:outputText value="#{a.x}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Y</f:facet>
+                            <h:outputText value="#{a.y}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">R</f:facet>
+                            <h:outputText value="#{a.r}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Result</f:facet>
+                            <h:outputText value="#{a.hit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Start time</f:facet>
+                            <h:outputText value="#{a.getStartTime()}"/>
+                        </h:column>
+                    </h:dataTable>
+                </td>
+            </tr>
+        </table>
+            <script type="text/javascript" src="resources/js/main.js"/>
+        </ui:composition>
+    </body>
+</html>
